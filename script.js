@@ -82,7 +82,6 @@ const perSecondEl = document.getElementById('perSecond');
 const clickButton = document.getElementById('clickButton');
 const upgradesContainer = document.getElementById('upgradesContainer');
 const multipliersContainer = document.getElementById('multipliersContainer');
-const tsEl = document.getElementById('ts');
 
 // Click handler
 clickButton.addEventListener('click', (e) => {
