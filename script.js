@@ -12,7 +12,8 @@ const upgrades = [
         baseProduction: 0,
         clickBonus: 1,
         count: 0,
-        multiplier: 1.2
+        multiplier: 1.2,
+        productionMultiplier: 1
     },
     {
         id: 'cursor',
@@ -20,7 +21,8 @@ const upgrades = [
         baseCost: 10,
         baseProduction: 0.1,
         count: 0,
-        multiplier: 1.15
+        multiplier: 1.15,
+        productionMultiplier: 1
     },
     {
         id: 'worker',
@@ -28,7 +30,8 @@ const upgrades = [
         baseCost: 100,
         baseProduction: 1,
         count: 0,
-        multiplier: 1.15
+        multiplier: 1.15,
+        productionMultiplier: 1
     },
     {
         id: 'factory',
@@ -36,7 +39,40 @@ const upgrades = [
         baseCost: 1000,
         baseProduction: 10,
         count: 0,
-        multiplier: 1.15
+        multiplier: 1.15,
+        productionMultiplier: 1
+    }
+];
+
+// Multipliers data
+const multipliers = [
+    {
+        upgradeId: 'powerup',
+        name: 'Click Power Multiplier',
+        baseCost: 250,
+        multiplier: 1.25,
+        count: 0
+    },
+    {
+        upgradeId: 'cursor',
+        name: 'Auto Clicker Multiplier',
+        baseCost: 50,
+        multiplier: 1.25,
+        count: 0
+    },
+    {
+        upgradeId: 'worker',
+        name: 'Worker Multiplier',
+        baseCost: 500,
+        multiplier: 1.25,
+        count: 0
+    },
+    {
+        upgradeId: 'factory',
+        name: 'Factory Multiplier',
+        baseCost: 5000,
+        multiplier: 1.25,
+        count: 0
     }
 ];
 
@@ -45,6 +81,7 @@ const scoreEl = document.getElementById('score');
 const perSecondEl = document.getElementById('perSecond');
 const clickButton = document.getElementById('clickButton');
 const upgradesContainer = document.getElementById('upgradesContainer');
+const multipliersContainer = document.getElementById('multipliersContainer');
 const tsEl = document.getElementById('ts');
 
 // Click handler
@@ -71,6 +108,24 @@ function getUpgradeCost(upgrade) {
     return Math.floor(upgrade.baseCost * Math.pow(upgrade.multiplier, upgrade.count));
 }
 
+// Calculate multiplier cost
+function getMultiplierCost(multiplier) {
+    return Math.floor(multiplier.baseCost * Math.pow(multiplier.multiplier, multiplier.count));
+}
+
+// Recalculate total click power and passive income
+function recalculateTotals() {
+    clickPower = 1;
+    passiveIncome = 0;
+    upgrades.forEach(upgrade => {
+        if (upgrade.clickBonus) {
+            clickPower += upgrade.clickBonus * upgrade.count * upgrade.productionMultiplier;
+        } else {
+            passiveIncome += upgrade.baseProduction * upgrade.count * upgrade.productionMultiplier;
+        }
+    });
+}
+
 // Calculate upgrade efficiency (production per cost)
 function getUpgradeEfficiency(upgrade) {
     const production = upgrade.clickBonus || upgrade.baseProduction;
@@ -81,9 +136,9 @@ function getUpgradeEfficiency(upgrade) {
 // Get production per second for an upgrade
 function getUpgradeProduction(upgrade) {
     if (upgrade.clickBonus) {
-        return `+${upgrade.clickBonus} per click`;
+        return `+${upgrade.clickBonus * upgrade.productionMultiplier} per click`;
     } else {
-        return `+${upgrade.baseProduction}/sec`;
+        return `+${(upgrade.baseProduction * upgrade.productionMultiplier).toFixed(1)}/sec`;
     }
 }
 
@@ -95,14 +150,30 @@ function buyUpgrade(upgrade) {
         score -= cost;
         upgrade.count++;
         
-        if (upgrade.clickBonus) {
-            clickPower += upgrade.clickBonus;
-        } else {
-            passiveIncome += upgrade.baseProduction;
-        }
-        
+        recalculateTotals();
         updateDisplay();
         renderUpgrades();
+    }
+}
+
+// Buy multiplier
+function buyMultiplier(multiplier) {
+    const cost = getMultiplierCost(multiplier);
+    
+    if (score >= cost) {
+        score -= cost;
+        multiplier.count++;
+        
+        // Find the upgrade and increase its multiplier
+        const upgrade = upgrades.find(u => u.id === multiplier.upgradeId);
+        if (upgrade) {
+            upgrade.productionMultiplier *= 2; // Double the production multiplier
+        }
+        
+        recalculateTotals();
+        updateDisplay();
+        renderUpgrades();
+        renderMultipliers();
     }
 }
 
@@ -143,11 +214,45 @@ function renderUpgrades() {
     });
 }
 
+// Render multipliers
+function renderMultipliers() {
+    multipliersContainer.innerHTML = '';
+    
+    multipliers.forEach(multiplier => {
+        const upgrade = upgrades.find(u => u.id === multiplier.upgradeId);
+        if (!upgrade || upgrade.count === 0) {
+            return; // Only show if the upgrade has been bought at least once
+        }
+        
+        const cost = getMultiplierCost(multiplier);
+        const canAfford = score >= cost;
+        
+        const multiplierDiv = document.createElement('div');
+        multiplierDiv.className = 'upgrade'; // Reuse upgrade class for styling
+        
+        multiplierDiv.innerHTML = `
+            <div class="upgrade-info">
+                <div class="upgrade-name">${multiplier.name}</div>
+                <div class="upgrade-details">
+                    Doubles production | Owned: <span class="multiplier-count">${multiplier.count}</span>
+                </div>
+            </div>
+            <button class="upgrade-button" ${!canAfford ? 'disabled' : ''}>
+                ${cost} 💰
+            </button>
+        `;
+        
+        multiplierDiv.querySelector('button').addEventListener('click', () => buyMultiplier(multiplier));
+        multipliersContainer.appendChild(multiplierDiv);
+    });
+}
+
 // Update display
 function updateDisplay() {
     scoreEl.textContent = Math.floor(score);
     perSecondEl.textContent = passiveIncome.toFixed(1);
     updateUpgradeButtons();
+    updateMultiplierButtons();
 }
 
 // Helper function to check if upgrade should be unlocked
@@ -214,6 +319,52 @@ function updateUpgradeButtons() {
     });
 }
 
+// Update only the multiplier button states without re-rendering
+function updateMultiplierButtons() {
+    // Check if any new multipliers should be shown
+    let needsRender = false;
+    multipliers.forEach(multiplier => {
+        const upgrade = upgrades.find(u => u.id === multiplier.upgradeId);
+        if (upgrade && upgrade.count > 0) {
+            const isCurrentlyVisible = Array.from(multipliersContainer.querySelectorAll('.upgrade-name')).some(
+                el => el.textContent === multiplier.name
+            );
+            if (!isCurrentlyVisible) {
+                needsRender = true;
+            }
+        }
+    });
+    if (needsRender) {
+        renderMultipliers();
+    }
+    
+    const buttons = multipliersContainer.querySelectorAll('.upgrade');
+    
+    let buttonIndex = 0;
+    multipliers.forEach(multiplier => {
+        const upgrade = upgrades.find(u => u.id === multiplier.upgradeId);
+        if (!upgrade || upgrade.count === 0) {
+            return;
+        }
+        
+        const cost = getMultiplierCost(multiplier);
+        const canAfford = score >= cost;
+        const button = buttons[buttonIndex]?.querySelector('.upgrade-button');
+        const countEl = buttons[buttonIndex]?.querySelector('.multiplier-count');
+        
+        if (button) {
+            button.disabled = !canAfford;
+            button.textContent = `${cost} 💰`;
+        }
+        
+        if (countEl) {
+            countEl.textContent = multiplier.count;
+        }
+        
+        buttonIndex++;
+    });
+}
+
 // Passive income loop
 setInterval(() => {
     if (passiveIncome > 0) {
@@ -224,3 +375,4 @@ setInterval(() => {
 
 // Initialize
 renderUpgrades();
+renderMultipliers();
