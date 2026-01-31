@@ -33,8 +33,8 @@ const upgrades = [
         productionMultiplier: 1
     },
     {
-        id: 'cursor',
-        name: 'Auto Clicker',
+        id: 'regular_turret',
+        name: 'Regular Turret',
         baseCost: 10,
         baseProduction: 0.1,
         count: 0,
@@ -42,8 +42,8 @@ const upgrades = [
         productionMultiplier: 1
     },
     {
-        id: 'worker',
-        name: 'Worker',
+        id: 'energy_laser',
+        name: 'Energy Laser',
         baseCost: 100,
         baseProduction: 1,
         count: 0,
@@ -51,8 +51,8 @@ const upgrades = [
         productionMultiplier: 1
     },
     {
-        id: 'factory',
-        name: 'Factory',
+        id: 'mortar',
+        name: 'Mortar',
         baseCost: 1000,
         baseProduction: 10,
         count: 0,
@@ -71,22 +71,22 @@ const multipliers = [
         count: 0
     },
     {
-        upgradeId: 'cursor',
-        name: 'Auto Clicker Multiplier',
+        upgradeId: 'regular_turret',
+        name: 'Regular Turret Multiplier',
         baseCost: 50,
         multiplier: 1.25,
         count: 0
     },
     {
-        upgradeId: 'worker',
-        name: 'Worker Multiplier',
+        upgradeId: 'energy_laser',
+        name: 'Energy Laser Multiplier',
         baseCost: 500,
         multiplier: 1.25,
         count: 0
     },
     {
-        upgradeId: 'factory',
-        name: 'Factory Multiplier',
+        upgradeId: 'mortar',
+        name: 'Mortar Multiplier',
         baseCost: 5000,
         multiplier: 1.25,
         count: 0
