@@ -10,12 +10,31 @@ body {
     min-height: 100vh;
     padding: 0;
     margin: 0;
+    overflow: hidden;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: black;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: black;
 }
 
 .container {
     position: relative;
     width: 100vw;
     height: 100vh;
+    z-index: 1;
 }
 
 h1 {
@@ -26,7 +45,7 @@ h1 {
     margin: 0;
 }
 
-.clicker-section {
+.asteroid-section {
     position: absolute;
     top: 50%;
     left: 50%;
