@@ -6,90 +6,100 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%);
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    padding: 0;
+    margin: 0;
 }
 
 .container {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    max-width: 800px;
-    width: 100%;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
 }
 
 h1 {
-    text-align: center;
-    color: #667eea;
-    margin-bottom: 30px;
-}
-
-.game-area {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-bottom: 30px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #87ceeb;
+    margin: 0;
 }
 
 .clicker-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
 }
 
 .score {
     font-size: 48px;
     font-weight: bold;
-    color: #667eea;
+    color: #00ffff;
     margin-bottom: 20px;
 }
 
 .per-second {
     font-size: 18px;
-    color: #666;
+    color: #add8e6;
     margin-bottom: 20px;
 }
 
 #clickButton {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    width: 250px;
+    height: 150px;
+    border-radius: 75px 75px 50px 50px;
     border: none;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #8c7853 0%, #5a4a3a 100%);
     color: white;
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.1s, box-shadow 0.1s;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(140, 120, 83, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #clickButton:hover {
     transform: scale(1.05);
-    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 15px 40px rgba(140, 120, 83, 0.6);
 }
 
 #clickButton:active {
     transform: scale(0.95);
 }
 
+.dashboard {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+}
+
 .upgrades-section h2 {
-    color: #667eea;
+    color: #87ceeb;
     margin-bottom: 15px;
     font-size: 24px;
 }
 
 .multipliers-section h2 {
-    color: #667eea;
+    color: #87ceeb;
     margin-bottom: 15px;
     font-size: 24px;
 }
 
 .upgrade {
-    background: #f7f7f7;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 10px;
@@ -101,7 +111,7 @@ h1 {
 
 .upgrade:hover {
     transform: translateX(5px);
-    background: #efefef;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .upgrade-info {
@@ -110,17 +120,17 @@ h1 {
 
 .upgrade-name {
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
     margin-bottom: 5px;
 }
 
 .upgrade-details {
     font-size: 14px;
-    color: #666;
+    color: #b0c4de;
 }
 
 .upgrade-button {
-    background: #667eea;
+    background: #8a2be2;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -131,22 +141,23 @@ h1 {
 }
 
 .upgrade-button:hover {
-    background: #764ba2;
+    background: #9932cc;
 }
 
 .upgrade-button:disabled {
-    background: #ccc;
+    background: rgba(255, 255, 255, 0.3);
     cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
-    .game-area {
-        grid-template-columns: 1fr;
+    .dashboard {
+        width: 250px;
+        right: 10px;
     }
 
     #clickButton {
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 120px;
         font-size: 20px;
     }
 }
@@ -156,7 +167,7 @@ h1 {
     pointer-events: none;
     font-size: 24px;
     font-weight: bold;
-    color: #667eea;
+    color: #00ffff;
     animation: float-up 1s ease-out forwards;
 }
 
