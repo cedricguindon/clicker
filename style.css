@@ -181,3 +181,15 @@ h1 {
         transform: translateY(-100px);
     }
 }
+
+.spaceship {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 75px solid transparent;
+    border-right: 75px solid transparent;
+    border-bottom: 150px solid #c0c0c0;
+}
