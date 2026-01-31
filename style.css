@@ -47,6 +47,18 @@ h1 {
     margin-bottom: 20px;
 }
 
+#asteroidName {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+#asteroidHealth {
+    font-size: 18px;
+    color: #b0c4de;
+    margin-bottom: 20px;
+}
+
 #clickButton {
     width: 250px;
     height: 150px;
