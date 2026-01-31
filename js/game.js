@@ -45,7 +45,7 @@ setInterval(() => {
         let damage = passiveIncome / 10;
         score += damage;
         if (currentAsteroid) {
-            currentAsteroid.health -= damage / 10;
+            currentAsteroid.health -= damage;
             currentAsteroid.health = Math.floor(currentAsteroid.health * 100) / 100;
             if (currentAsteroid.health <= 0) {
                 spawnNewAsteroid();
