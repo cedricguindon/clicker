@@ -104,6 +104,15 @@ h1 {
     transform: scale(0.95);
 }
 
+.resources-section {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: right;
+    color: #ffffff;
+    font-size: 16px;
+}
+
 .dashboard {
     position: absolute;
     right: 20px;

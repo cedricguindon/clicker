@@ -16,9 +16,9 @@ clickButton.addEventListener('click', (e) => {
     if (currentAsteroid) {
         currentAsteroid.health -= clickPower;
         currentAsteroid.health = Math.floor(currentAsteroid.health);
-        score += clickPower; // still add score per click
+        score += clickPower;
         if (currentAsteroid.health <= 0) {
-            // perhaps bonus score
+            renderResources(currentAsteroid);
             spawnNewAsteroid();
         }
         updateDisplay();

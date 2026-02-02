@@ -67,6 +67,22 @@ function renderMultipliers() {
     });
 }
 
+renderResources = function(asteroid) {
+    const copperAmountEl = document.getElementById('copperAmount');
+    const ironAmountEl = document.getElementById('ironAmount');
+    const silverAmountEl = document.getElementById('silverAmount');
+
+    const amountGained = Math.floor(Math.random() * 11);
+
+    const copperGained = asteroid.copper * amountGained / 100;
+    const ironGained = asteroid.iron * amountGained / 100;
+    const silverGained = asteroid.silver * amountGained / 100;
+
+    copperAmountEl.textContent = Math.floor(Number(copperAmountEl.textContent) + copperGained);
+    ironAmountEl.textContent = Math.floor(Number(ironAmountEl.textContent) + ironGained);
+    silverAmountEl.textContent = Math.floor(Number(silverAmountEl.textContent) + silverGained);
+}   
+
 function updateDisplay() {
     scoreEl.textContent = Math.floor(score);
     perSecondEl.textContent = passiveIncome.toFixed(1);
