@@ -4,19 +4,28 @@ const asteroidTypes = [
         id: 'baby_asteroid',
         name: 'Baby Asteroid',
         maxHealth: 10,
-        appearancePercent: 60
+        appearancePercent: 60,
+        copper: 70,
+        iron: 20,
+        silver: 10
     },
     {
         id: 'small_asteroid',
         name: 'Small Asteroid',
         maxHealth: 50,
-        appearancePercent: 30
+        appearancePercent: 30,
+        copper: 50,
+        iron: 35,
+        silver: 15
     },
     {
         id: 'medium_asteroid',
         name: 'Medium Asteroid',
         maxHealth: 100,
-        appearancePercent: 10
+        appearancePercent: 10,
+        copper: 30,
+        iron: 40,
+        silver: 30
     }
 ];
 
